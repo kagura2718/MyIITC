@@ -1,8 +1,8 @@
 // ==UserScript==
-// @id             iitc-plugin-player-tracker@breunigs
-// @name           IITC Plugin: Player tracker
+// @id             iitc-plugin-player-tracker@kagura2718
+// @name           IITC Plugin: My Player tracker
 // @category       Layer
-// @version        0.11.1.20160824.145901
+// @version        0.11.1.20160824.163901
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      https://github.com/kagura2718/MyIITC/raw/master/plugins/player-tracker.meta.js
 // @downloadURL    https://github.com/kagura2718/MyIITC/raw/master/plugins/player-tracker.user.js
