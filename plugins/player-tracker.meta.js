@@ -2,11 +2,11 @@
 // @id             iitc-plugin-player-tracker@kagura2718
 // @name           IITC Plugin: My Player tracker
 // @category       Layer
-// @version        0.11.1.20160824.163901
+// @version        0.11.1.20160824.165201
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      https://github.com/kagura2718/MyIITC/raw/master/plugins/player-tracker.meta.js
 // @downloadURL    https://github.com/kagura2718/MyIITC/raw/master/plugins/player-tracker.user.js
-// @description    [kagura2718-2016-08-24-144401] Draw trails for the path a user took onto the map based on status messages in COMMs. Uses up to three hours of data. Does not request chat data on its own, even if that would be useful.
+// @description    [kagura2718-2016-08-24-165201] Draw trails for the path a user took onto the map based on status messages in COMMs. Uses up to three hours of data. Does not request chat data on its own, even if that would be useful.
 // @include        https://www.ingress.com/intel*
 // @include        http://www.ingress.com/intel*
 // @match          https://www.ingress.com/intel*
