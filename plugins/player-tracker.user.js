@@ -2,11 +2,11 @@
 // @id             iitc-plugin-player-tracker@kagura2718
 // @name           IITC Plugin: My Player tracker
 // @category       Layer
-// @version        0.11.1.20160824.165201
+// @version        0.11.1.20160824.165901
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      https://github.com/kagura2718/MyIITC/raw/master/plugins/player-tracker.meta.js
 // @downloadURL    https://github.com/kagura2718/MyIITC/raw/master/plugins/player-tracker.user.js
-// @description    [kagura2718-2016-08-24-165201] Draw trails for the path a user took onto the map based on status messages in COMMs. Uses up to three hours of data. Does not request chat data on its own, even if that would be useful.
+// @description    [kagura2718-2016-08-24-165901] Draw trails for the path a user took onto the map based on status messages in COMMs. Uses up to three hours of data. Does not request chat data on its own, even if that would be useful.
 // @include        https://www.ingress.com/intel*
 // @include        http://www.ingress.com/intel*
 // @match          https://www.ingress.com/intel*
@@ -87,7 +87,7 @@ window.plugin.playerTracker.setup = function() {
   window.plugin.playerTracker.zoomListener();
   
   plugin.playerTracker.setupUserSearch();
-}
+};
 
 window.plugin.playerTracker.stored = {};
 
@@ -109,7 +109,7 @@ window.plugin.playerTracker.closeIconTooltips = function() {
   plugin.playerTracker.drawnTracesEnl.eachLayer(function(layer) {
     if ($(layer._icon)) { $(layer._icon).tooltip('close');}
   });
-}
+};
 
 window.plugin.playerTracker.zoomListener = function() {
   var ctrl = $('.leaflet-control-layers-selector + span:contains("Player Tracker")').parent();
@@ -125,11 +125,11 @@ window.plugin.playerTracker.zoomListener = function() {
     //note: zoomListener is also called at init time to set up things, so we only need to do this in here
     window.chat.backgroundChannelData('plugin.playerTracker', 'all', true);    //enable this plugin's interest in 'all' COMM
   }
-}
+};
 
 window.plugin.playerTracker.getLimit = function() {
  return new Date().getTime() - window.PLAYER_TRACKER_MAX_TIME;
-}
+};
 
 window.plugin.playerTracker.discardOldData = function() {
   var limit = plugin.playerTracker.getLimit();
@@ -143,7 +143,7 @@ window.plugin.playerTracker.discardOldData = function() {
     if(i === ev.length) return delete plugin.playerTracker.stored[plrname];
     plugin.playerTracker.stored[plrname].events.splice(0, i);
   });
-}
+};
 
 window.plugin.playerTracker.eventHasLatLng = function(ev, lat, lng) {
   var hasLatLng = false;
@@ -154,7 +154,7 @@ window.plugin.playerTracker.eventHasLatLng = function(ev, lat, lng) {
     }
   });
   return hasLatLng;
-}
+};
 
 window.plugin.playerTracker.processNewData = function(data) {
   var limit = plugin.playerTracker.getLimit();
@@ -260,7 +260,7 @@ window.plugin.playerTracker.processNewData = function(data) {
     // update player data
     plugin.playerTracker.stored[plrname].events = evts;
   });
-}
+};
 
 window.plugin.playerTracker.getLatLngFromEvent = function(ev) {
 //TODO? add weight to certain events, or otherwise prefer them, to give better locations?
@@ -272,7 +272,7 @@ window.plugin.playerTracker.getLatLngFromEvent = function(ev) {
   });
 
   return L.latLng(lats / ev.latlngs.length, lngs / ev.latlngs.length);
-}
+};
 
 window.plugin.playerTracker.ago = function(time, now) {
   var s = (now-time) / 1000;
@@ -283,7 +283,7 @@ window.plugin.playerTracker.ago = function(time, now) {
     returnVal = h + 'h' + returnVal;
   }
   return returnVal;
-}
+};
 
 window.plugin.playerTracker.drawData = function() {
   var isTouchDev = window.isTouchDevice();
@@ -461,7 +461,7 @@ window.plugin.playerTracker.drawData = function() {
       L.polyline(poly, opts).addTo(plugin.playerTracker.drawnTracesRes);
     });
   });
-}
+};
 
 window.plugin.playerTracker.getPortalLink = function(data) {
   var position = data.latlngs[0];
@@ -485,7 +485,7 @@ window.plugin.playerTracker.getPortalLink = function(data) {
       event.preventDefault();
       return false;
     });
-}
+};
 
 window.plugin.playerTracker.handleData = function(data) {
   if(window.map.getZoom() < window.PLAYER_TRACKER_MIN_ZOOM) return;
@@ -497,7 +497,7 @@ window.plugin.playerTracker.handleData = function(data) {
   plugin.playerTracker.drawnTracesEnl.clearLayers();
   plugin.playerTracker.drawnTracesRes.clearLayers();
   plugin.playerTracker.drawData();
-}
+};
 
 window.plugin.playerTracker.findUser = function(nick) {
   nick = nick.toLowerCase();
@@ -509,7 +509,7 @@ window.plugin.playerTracker.findUser = function(nick) {
     }
   });
   return foundPlayerData;
-}
+};
 
 window.plugin.playerTracker.findUserPosition = function(nick) {
   var data = window.plugin.playerTracker.findUser(nick);
@@ -517,7 +517,7 @@ window.plugin.playerTracker.findUserPosition = function(nick) {
 
   var last = data.events[data.events.length - 1];
   return plugin.playerTracker.getLatLngFromEvent(last);
-}
+};
 
 window.plugin.playerTracker.centerMapOnUser = function(nick) {
   var data = plugin.playerTracker.findUser(nick);
@@ -533,14 +533,14 @@ window.plugin.playerTracker.centerMapOnUser = function(nick) {
     window.plugin.playerTracker.onClickListener({target: data.marker});
   }
   return true;
-}
+};
 
 window.plugin.playerTracker.onNicknameClicked = function(info) {
   if (info.event.ctrlKey || info.event.metaKey) {
     return !plugin.playerTracker.centerMapOnUser(info.nickname);
   }
   return true; // don't interrupt hook
-}
+};
 
 window.plugin.playerTracker.onSearchResultSelected = function(result, event) {
   event.stopPropagation(); // prevent chat from handling the click
@@ -575,12 +575,12 @@ window.plugin.playerTracker.onSearch = function(query) {
       onSelected: window.plugin.playerTracker.onSearchResultSelected,
     });
   });
-}
+};
 
 window.plugin.playerTracker.setupUserSearch = function() {
   addHook('nicknameClicked', window.plugin.playerTracker.onNicknameClicked);
   addHook('search', window.plugin.playerTracker.onSearch);
-}
+};
 
 
 var setup = plugin.playerTracker.setup;
