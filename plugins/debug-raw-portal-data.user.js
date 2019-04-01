@@ -1,12 +1,12 @@
 // ==UserScript==
-// @id             iitc-plugin-raw-portal-data
-// @name           IITC plugin: Debug: Raw portal JSON data
+// @id             iitc-plugin-raw-portal-data@kagura2718
+// @name           IITC plugin: Debug: My Raw portal JSON data
 // @category       Debug
-// @version        0.2.4.20170108.21732
+// @version        0.2.5.20190401.0000
 // @namespace      rawdata
-// @updateURL      https://static.iitc.me/build/release/plugins/debug-raw-portal-data.meta.js
-// @downloadURL    https://static.iitc.me/build/release/plugins/debug-raw-portal-data.user.js
-// @description    [iitc-2017-01-08-021732] Developer debugging aid: Add a link to the portal details to show the raw data of a portal.
+// @updateURL      https://github.com/kagura2718/MyIITC/raw/master/plugins/debug-raw-portal-data.meta.js
+// @downloadURL    https://github.com/kagura2718/MyIITC/raw/master/plugins/debug-raw-portal-data.user.js
+// @description    [kagura2718-iitc-2017-01-08-021732] Developer debugging aid: Add a link to the portal details to show the raw data of a portal.
 // @include        https://*.ingress.com/intel*
 // @include        http://*.ingress.com/intel*
 // @match          https://*.ingress.com/intel*
@@ -64,7 +64,17 @@ window.plugin.rawdata.showPortalData = function(guid) {
 
   var details = portalDetail.get(guid);
   if (details) {
-    body += '<b>Portal details:</b><pre>'+JSON.stringify(details,null,2)+'</pre>';
+
+    var jsonStr = JSON.stringify(details,null,2);
+    var input = document.createElement('input');
+    input.setAttribute('id', 'copyinput');
+    document.body.appendChild(input);
+    input.value = jsonStr;
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+
+    body += '<b>Portal details:</b><pre>'+jsonStr+'</pre>';
   }
 
 
