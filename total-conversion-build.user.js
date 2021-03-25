@@ -1,11 +1,11 @@
 // ==UserScript==
 // @id             ingress-intel-total-conversion@jonatkins
 // @name           IITC: Ingress intel map total conversion
-// @version        0.26.0.20170302.114718
+// @version        0.26.0.20210326.010203
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      https://github.com/kagura2718/MyIITC/raw/master/total-conversion-build.meta.js
 // @downloadURL    https://github.com/kagura2718/MyIITC/raw/master/total-conversion-build.user.js
-// @description    [local-2017-03-02-114718] Total conversion for the ingress intel map.
+// @description    [local-2021-03-26-010203] Total conversion for the ingress intel map.
 // @include        https://*.ingress.com/intel*
 // @include        http://*.ingress.com/intel*
 // @match          https://*.ingress.com/intel*
@@ -151,6 +151,7 @@ window.MOD_TYPE = {RES_SHIELD:'Shield', MULTIHACK:'Multi-hack', FORCE_AMP:'Force
 // it and how far the portal reaches (i.e. how far links may be made
 // from this portal)
 window.ACCESS_INDICATOR_COLOR = 'orange';
+window.POKEMON_ACCESS_INDICATOR_COLOR = 'blue';
 window.RANGE_INDICATOR_COLOR = 'red'
 
 // min zoom for intel map - should match that used by stock intel
@@ -164,6 +165,7 @@ window.NOMINATIM = '//nominatim.openstreetmap.org/search?format=json&polygon_geo
 // http://decodeingress.me/2012/11/18/ingress-portal-levels-and-link-range/
 window.RESO_NRG = [0, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000];
 window.HACK_RANGE = 40; // in meters, max. distance from portal to be able to access it
+window.POKESTOP_SPIN_RANGE = 80;
 window.OCTANTS = ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'];
 window.OCTANTS_ARROW = ['→', '↗', '↑', '↖', '←', '↙', '↓', '↘'];
 window.DESTROY_RESONATOR = 75; //AP for destroying portal
@@ -197,6 +199,7 @@ window.urlPortalLL = null;
 window.selectedPortal = null;
 window.portalRangeIndicator = null;
 window.portalAccessIndicator = null;
+window.pokestopAccessIndicator = null;
 window.mapRunsUserAction = false;
 //var portalsLayers, linksLayer, fieldsLayer;
 var portalsFactionLayers, linksFactionLayers, fieldsFactionLayers;
@@ -15339,6 +15342,8 @@ window.setPortalIndicators = function(p) {
   portalRangeIndicator = null;
   if(portalAccessIndicator) map.removeLayer(portalAccessIndicator);
   portalAccessIndicator = null;
+  if(pokestopAccessIndicator) map.removeLayer(pokestopAccessIndicator);
+  pokestopAccessIndicator = null;
 
   // if we have a portal...
 
@@ -15364,6 +15369,10 @@ window.setPortalIndicators = function(p) {
 
     portalAccessIndicator = L.circle(coord, HACK_RANGE,
       { fill: false, color: ACCESS_INDICATOR_COLOR, weight: 2, clickable: false }
+    ).addTo(map);
+
+    pokestopAccessIndicator = L.circle(coord, POKESTOP_SPIN_RANGE,
+      { fill: false, color: POKEMON_ACCESS_INDICATOR_COLOR, weight: 2, clickable: false }
     ).addTo(map);
   }
 
