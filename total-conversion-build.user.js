@@ -11567,7 +11567,7 @@ window.chat.renderData = function(data, element, likelyWereOldMsgs) {
   var msgs = '';
   var prevTime = null;
   $.each(vals, function(ind, msg) {
-    var nextTime = new Date(msg[0]).toDateString();
+    var nextTime = unixTimeToDateString(msg[0]);
     if(prevTime && prevTime !== nextTime)
       msgs += chat.renderDivider(nextTime);
     msgs += msg[2];
@@ -11582,7 +11582,7 @@ window.chat.renderData = function(data, element, likelyWereOldMsgs) {
 
 window.chat.renderDivider = function(text) {
   var d = ' ──────────────────────────────────────────────────────────────────────────';
-  return '<tr><td colspan="3" style="padding-top:3px"><summary>─ ' + text + d + '</summary></td></tr>';
+  return '<tr><td colspan="3" style="padding-top:3px"><summary>─-' + text + d + '</summary></td></tr>';
 }
 
 
@@ -17673,6 +17673,15 @@ window.unixTimeToDateTimeString = function(time, millisecond) {
   return d.getFullYear()+'-'+zeroPad(d.getMonth()+1,2)+'-'+zeroPad(d.getDate(),2)
     +' '+zeroPad(d.getHours(),2)+':'+zeroPad(d.getMinutes(),2)+':'+zeroPad(d.getSeconds(),2)+(millisecond?'.'+zeroPad(d.getMilliseconds(),3):'');
 }
+
+// converts a javascript time to a precise date (optionally with millisecond precision)
+// formatted in ISO-style YYYY-MM-DD
+window.unixTimeToDateString = function(time) {
+  if(!time) return null;
+  var d = new Date(typeof time === 'string' ? parseInt(time) : time);
+  return d.getFullYear()+'-'+zeroPad(d.getMonth()+1,2)+'-'+zeroPad(d.getDate(),2);
+}
+
 
 window.unixTimeToHHmm = function(time) {
   if(!time) return null;
