@@ -1,11 +1,11 @@
 // ==UserScript==
 // @id             ingress-intel-total-conversion@jonatkins
 // @name           IITC: Ingress intel map total conversion
-// @version        0.27.0.20210326.010203
+// @version        0.27.0.20220413.120203
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      https://github.com/kagura2718/MyIITC/raw/master/total-conversion-build.meta.js
 // @downloadURL    https://github.com/kagura2718/MyIITC/raw/master/total-conversion-build.user.js
-// @description    [local-2021-03-26-010203] Total conversion for the ingress intel map.
+// @description    [local-2022-04-13-120203] Total conversion for the ingress intel map.
 // @include        https://*.ingress.com/intel*
 // @include        http://*.ingress.com/intel*
 // @match          https://*.ingress.com/intel*
@@ -11567,7 +11567,7 @@ window.chat.renderData = function(data, element, likelyWereOldMsgs) {
   var msgs = '';
   var prevTime = null;
   $.each(vals, function(ind, msg) {
-    var nextTime = new Date(msg[0]).toLocaleDateString();
+    var nextTime = new Date(msg[0]).toDateString();
     if(prevTime && prevTime !== nextTime)
       msgs += chat.renderDivider(nextTime);
     msgs += msg[2];
