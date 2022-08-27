@@ -1,11 +1,11 @@
 // ==UserScript==
 // @id             ingress-intel-total-conversion@jonatkins
 // @name           IITC: Ingress intel map total conversion
-// @version        0.27.0.20220426.120805
+// @version        0.28.0.20220828.083325
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      https://github.com/kagura2718/MyIITC/raw/master/total-conversion-build.meta.js
 // @downloadURL    https://github.com/kagura2718/MyIITC/raw/master/total-conversion-build.user.js
-// @description    [local-2022-04-26-120805] Total conversion for the ingress intel map.
+// @description    [local-2022-08-28-083325] Total conversion for the ingress intel map.
 // @include        https://*.ingress.com/intel*
 // @include        http://*.ingress.com/intel*
 // @match          https://*.ingress.com/intel*
@@ -12555,7 +12555,8 @@ window.setupDialogs = function() {
   };
 
   var DETAILED_PORTAL_DATA_LENGTH = SUMMARY_PORTAL_DATA_LENGTH+4;
-
+  // TODO FIXME not yet what means
+  var UNKNOWN_PORTAL_DATA_LENGTH = SUMMARY_PORTAL_DATA_LENGTH+5;
 
   window.decodeArray.portalSummary = function(a) {
     if (!a) return undefined;
@@ -12568,7 +12569,9 @@ window.setupDialogs = function() {
 
     // NOTE: allow for either summary or detailed portal data to be passed in here, as details are sometimes
     // passed into code only expecting summaries
-    if (a.length != SUMMARY_PORTAL_DATA_LENGTH && a.length != DETAILED_PORTAL_DATA_LENGTH) {
+    if (a.length != SUMMARY_PORTAL_DATA_LENGTH &&
+        a.length != DETAILED_PORTAL_DATA_LENGTH &&
+        a.length != UNKNOWN_PORTAL_DATA_LENGTH) {
       console.warn('Portal summary length changed - portal details likely broken!');
       debugger;
     }
@@ -12581,7 +12584,7 @@ window.setupDialogs = function() {
 
     if (a[0] != 'p') throw 'Error: decodeArray.portalDetail - not a portal';
 
-    if (a.length != DETAILED_PORTAL_DATA_LENGTH) {
+    if (a.length != DETAILED_PORTAL_DATA_LENGTH && a.length != UNKNOWN_PORTAL_DATA_LENGTH) {
       console.warn('Portal detail length changed - portal details may be wrong');
       debugger;
     }
@@ -17670,11 +17673,14 @@ window.unixTimeToString = function(time, full) {
 window.unixTimeToDateTimeString = function(time, millisecond) {
   if(!time) return null;
   var d = new Date(typeof time === 'string' ? parseInt(time) : time);
-  return d.getFullYear()+'-'+zeroPad(d.getMonth()+1,2)+'-'+zeroPad(d.getDate(),2)
-    +' '+zeroPad(d.getHours(),2)+':'+zeroPad(d.getMinutes(),2)+':'+zeroPad(d.getSeconds(),2)+(millisecond?'.'+zeroPad(d.getMilliseconds(),3):'');
+  var yyyyMMdd = d.getFullYear() + '-' + zeroPad(d.getMonth()+1,2) + '-' + zeroPad(d.getDate(),2);
+  var hhmmss = zeroPad(d.getHours(),2) + ':' + zeroPad(d.getMinutes(),2) + ':' + zeroPad(d.getSeconds(),2);
+  var ms = '.' + zeroPad(d.getMilliseconds(),3);
+
+  return yyyyMMdd + ' ' + hhmmss + (millisecond ? ms : '');
 }
 
-// converts a javascript time to a precise date (optionally with millisecond precision)
+// converts a javascript time to a precise date
 // formatted in ISO-style YYYY-MM-DD
 window.unixTimeToDateString = function(time) {
   if(!time) return null;
