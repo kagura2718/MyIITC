@@ -11587,13 +11587,17 @@ window.chat.renderDivider = function(text) {
 
 
 window.chat.renderMsg = function(msg, nick, time, team, msgToPlayer, systemNarrowcast) {
-  var ta = unixTimeToHHmmss(time);
+  // var ta0 = unixTimeToDateString(time);
+  var ta = unixTimeToHHmmss(time, true);
   var tb = unixTimeToDateTimeString(time, true);
   //add <small> tags around the milliseconds
   tb = (tb.slice(0,19)+'<small class="milliseconds">'+tb.slice(19)+'</small>').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
   // help cursor via “#chat time”
-  var t = '<time title="'+tb+'" data-timestamp="'+time+'"><small>'+ta+'</small></time>';
+  var t = '<time title="'+tb+'" data-timestamp="'+time+'">' +
+      // '<span style="visibility: hidden;">' + ta0 + '</span>' + 
+	  '<small><small>'+ta+'</small></small>' +
+	  '</time>';
   if ( msgToPlayer )
   {
     t = '<div class="pl_nudge_date">' + t + '</div><div class="pl_nudge_pointy_spacer"></div>';
@@ -17697,13 +17701,16 @@ window.unixTimeToHHmm = function(time) {
   return  h + ':' + m;
 }
 
-window.unixTimeToHHmmss = function(time) {
+window.unixTimeToHHmmss = function(time, millisecond) {
   if(!time) return null;
   var d = new Date(typeof time === 'string' ? parseInt(time) : time);
   var h = '' + d.getHours(); h = h.length === 1 ? '0' + h : h;
   var m = '' + d.getMinutes(); m = m.length === 1 ? '0' + m : m;
   var s = '' + d.getSeconds(); s = s.length === 1 ? '0' + s : s;
-  return  h + ':' + m + ':' + s;
+  var hhmmss =  h + ':' + m + ':' + s;
+  var ms = '.' + zeroPad(d.getMilliseconds(),3);
+
+  return hhmmss + (millisecond ? ms : '');
 }
 
 window.formatInterval = function(seconds,maxTerms) {
