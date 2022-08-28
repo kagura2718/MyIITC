@@ -11,3 +11,7 @@ Customized IITC Plugins
 [Player Tracker](https://github.com/kagura2718/MyIITC/raw/master/plugins/player-tracker.user.js)
 
 [Debug Raw Portal](https://github.com/kagura2718/MyIITC/raw/master/plugins/debug-raw-portal-data.user.js)
+
+# Disclaimer
+
+Absolutely no warranty.
